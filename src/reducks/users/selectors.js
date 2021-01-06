@@ -3,6 +3,11 @@ import { createSelector } from 'reselect';
 // useSelectorにより現在のstateの情報が引数として渡される
 const usersSelector = (state) => state.users;
 
+export const getIsSignedIn = createSelector(
+    [usersSelector],
+    state => state.isSignedIn
+)
+
 // 現在のstateのuidを返す　stateが変更された時実行される
 export const getUserId = createSelector(
     [usersSelector],

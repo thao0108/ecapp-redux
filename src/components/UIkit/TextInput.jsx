@@ -8,7 +8,8 @@ const TextInput = (props) => {
             label={props.label}
             multiline={props.multiline}
             required={props.required}
-            rows={props.value}
+            rows={props.rows}
+            value={props.value}
             type={props.type}
             onChange={props.onChange}
         />
