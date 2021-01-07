@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 // Import reducer
 
 import { UsersReducer } from '../users/reducers';
+import { ProductsReducer } from '../products/reducers';
 
 export default function createStore(history) { 
     return reduxCreateStore(
@@ -18,6 +19,7 @@ export default function createStore(history) {
         combineReducers({
             // historyをrouterとしてstateで管理
             router: connectRouter(history),
+            products: ProductsReducer,
             users: UsersReducer
         }),
         applyMiddleware(
