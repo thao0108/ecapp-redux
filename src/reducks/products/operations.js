@@ -4,7 +4,7 @@ import { push } from 'connected-react-router'
 const productsRef = db.collection('products')
 
 // 商品データを登録
-export const saveProduct = (name, description, category, gender, price) => {
+export const saveProduct = (name, description, category, gender, price, images) => {
     return async (dispatch) => {
         const timestamp = firebaseTimeStamp.now()
 
@@ -15,6 +15,7 @@ export const saveProduct = (name, description, category, gender, price) => {
             gender: gender,
             name: name,
             price: parseInt(price, 10), //10進数
+            images: images,
             updated_at: timestamp
         }
         const ref = productsRef.doc();
