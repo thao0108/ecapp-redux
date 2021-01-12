@@ -1,16 +1,28 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { TextInput, SelectBox, PrimaryButton } from "../components/UIkit";
 import { useDispatch } from 'react-redux'
 import { saveProduct } from '../reducks/products/operations'
 import ImageArea from '../components/Products/ImageArea'
+import { db } from '../firebase';
+import { SetSizeArea } from '../components/Products'
 
 const ProductEdit = () => {
     const dispatch = useDispatch()
+    // product/editで区切ったあとの　１つ目
+    let id = window.location.pathname.split('/product/edit')[1]
+    console.log("Before split/", id)
+    if (id !== "") {
+        //  /の区切ったあとの　１つ目 useEffectに続く
+        id = id.split('/')[1]
+        console.log("After split /", id)
+    }
+
     const [name, setName] = useState(''),
           [description, setDescription] = useState(''),
           [category, setCategory] = useState(''),
           [gender, setGender] = useState(''),
           [images, setImages] = useState([]),
+          [sizes, setSizes] = useState([]),
           [price, setPrice] = useState('');
 
     const inputName = useCallback((event) => {
@@ -37,13 +49,31 @@ const ProductEdit = () => {
         {id: "female", name: "レディース"},
     ]
 
+    // idが変更されるたびに
+    useEffect(() => {
+        if( id !== "") {
+            // id
+            db.collection('products').doc(id).get()
+                .then(snapshot => {
+                    const data = snapshot.data();
+                    setImages(data.images);
+                    setName(data.name);
+                    setDescription(data.description);
+                    setCategory(data.gender);
+                    setGender(data.gender);
+                    setPrice(data.price);
+                    setSizes(data.sizes);
+                })
+        }
+    }, [id])
+
 
     return(
         <section>
             <h2 className="u-text__headline u-text-center">商品の登録・編集</h2>
            <div className="c-section-container">
             <ImageArea images={images} setImages={setImages}/>
-            <TextInput 
+                <TextInput 
                     fullWidth={true} label={"商品名"} multiline={false} required={true} 
                     rows={1} value={name} type={"text"} onChange={inputName}
                 />
@@ -63,11 +93,13 @@ const ProductEdit = () => {
                     fullWidth={true} label={"価格"} multiline={false} required={true} 
                     rows={1} value={price} type={"email"} onChange={inputPrice}
                 />
-                <div className="module-spacer--medium"/>
+                <div className="module-spacer--small"/>
+                <SetSizeArea sizes={sizes} setSizes={setSizes}/>
+                <div className="module-spacer--small"/>
                 <div className="center">
                     <PrimaryButton
                         label={"商品情報を保存"}
-                        onClick={() => dispatch(saveProduct(name, description, category, gender, price, images))}
+                        onClick={() => dispatch(saveProduct(id, name, description, category, gender, price, images, sizes))}
                     />
                 </div>
            </div>
