@@ -52,7 +52,7 @@ const ProductEdit = () => {
     // idが変更されるたびに
     useEffect(() => {
         if( id !== "") {
-            // id
+            // id　productsのフィールドデータを呼び出す
             db.collection('products').doc(id).get()
                 .then(snapshot => {
                     const data = snapshot.data();
