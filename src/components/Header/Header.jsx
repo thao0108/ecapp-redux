@@ -5,6 +5,7 @@ import {AppBar, Toolbar} from '@material-ui/core'
 import logo from '../../assets/img/icons/logo.png'
 import { getIsSignedIn } from '../../reducks/users/selectors'
 import { push } from 'connected-react-router'
+import { HeaderMenu } from './index'
 
  const useStyles = makeStyles({
         root: {
@@ -38,6 +39,11 @@ const Header = () => {
                         src={logo} alt="Torahack logo" width="120px"
                         onClick={() => dispatch(push('/'))}
                     />
+                    {isSignedIn && (
+                        <div className={classes.iconButtons}>
+                            <HeaderMenu/>
+                        </div>
+                    )}
                 </ Toolbar> 
             </ AppBar>
         </div>
