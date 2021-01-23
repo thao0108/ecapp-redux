@@ -1,11 +1,11 @@
 import React from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import Badge from '@material-ui/core/Badge'
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCard'
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
-import MenuIcon from '@material-ui/icons/MenuIcon'
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+import FavariteBorderIcon from '@material-ui/icons/FavoriteBorder'
+import MenuIcon from '@material-ui/icons/Menu'
 
-const HeaderMenu = () => {
+const HeaderMenu = (props) => {
     return (
         <>
             <IconButton>
@@ -14,9 +14,10 @@ const HeaderMenu = () => {
                 </Badge>
             </IconButton>
             <IconButton>
-                <FavariteBoderIcon/>
+                <FavariteBorderIcon/>
             </IconButton>
-            <IconButton>
+            {/* サインインしてMenuIconが押された時にdrawerが開く */}
+            <IconButton onClick={(e) => props.handleDrawerToggle(e)}>
                 <MenuIcon/>
             </IconButton>
         </>

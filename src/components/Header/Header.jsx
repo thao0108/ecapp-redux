@@ -1,11 +1,11 @@
-import React from 'react'
+import React, {useState, useCallback} from 'react'
 import { useSelector, useDispatch } from 'react-redux' 
 import { makeStyles} from '@material-ui/core/styles'
 import {AppBar, Toolbar} from '@material-ui/core'
 import logo from '../../assets/img/icons/logo.png'
 import { getIsSignedIn } from '../../reducks/users/selectors'
 import { push } from 'connected-react-router'
-import { HeaderMenu } from './index'
+import { HeaderMenu, ClosableDrawer } from './index'
 
  const useStyles = makeStyles({
         root: {
@@ -31,6 +31,16 @@ const Header = () => {
     const isSignedIn = getIsSignedIn(selector)
     const dispatch = useDispatch()
 
+    const [open, setOpen] = useState(false)
+
+    const handleDrawerToggle = useCallback((e) => {
+        // キーボード入力かつ、タブかシフトだったらそのまま返す
+        if(e.type === 'keydown' && (e.key === 'Tab' || e.key === 'Shift')) {
+            return;
+        }
+        setOpen(!open)
+    },[setOpen, open])
+
     return(
         <div className={classes.root}>
             <AppBar position="fiexed" className={classes.menuBar}>
@@ -41,11 +51,13 @@ const Header = () => {
                     />
                     {isSignedIn && (
                         <div className={classes.iconButtons}>
-                            <HeaderMenu/>
+                            <HeaderMenu handleDrawerToggle={handleDrawerToggle}/>
                         </div>
                     )}
                 </ Toolbar> 
             </ AppBar>
+            {/* 初期はfalse closeする時はsetOpenがfalseになる時  HeaderMenuのMenuIconが押されたらtrueになる*/}
+            <ClosableDrawer open={open} onClose={handleDrawerToggle}/>
         </div>
     )
 }
