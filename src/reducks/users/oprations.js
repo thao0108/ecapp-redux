@@ -1,4 +1,4 @@
-import { signInAction , signOutAction} from './actions'
+import { signInAction , signOutAction, fetchProductsInCartAction } from './actions'
 import {push} from 'connected-react-router';
 import { auth, db, firebaseTimeStamp } from '../../firebase/index'
 
@@ -13,6 +13,12 @@ export const addProductToCart = (addedProduct) => {
         // cartサブコレクションデータ追加
         await cartRef.set(addedProduct)
         dispatch(push('/'))
+    }
+}
+// アクションにHeaderMenuからのカートの情報を渡す
+export const fetchProductsInCart = (products) => {
+    return async(dispatch) => {
+        dispatch(fetchProductsInCartAction(products))
     }
 }
 
