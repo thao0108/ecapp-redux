@@ -1,6 +1,26 @@
-import { signInAction , signOutAction} from './actions'
+import { signInAction , signOutAction, fetchProductsInCartAction } from './actions'
 import {push} from 'connected-react-router';
 import { auth, db, firebaseTimeStamp } from '../../firebase/index'
+
+
+// cartに選択された商品情報を登録
+export const addProductToCart = (addedProduct) => {
+    return async (dispatch, getState) => {
+        const uid = getState().users.uid
+        // 現在のユーザーの中にサブコレクションcartのドキュメントIDを作成
+        const cartRef = db.collection('users').doc(uid).collection('cart').doc()
+        addedProduct['cartId'] = cartRef.id
+        // cartサブコレクションデータ追加
+        await cartRef.set(addedProduct)
+        dispatch(push('/'))
+    }
+}
+// アクションにHeaderMenuからのカートの情報を渡す
+export const fetchProductsInCart = (products) => {
+    return async(dispatch) => {
+        dispatch(fetchProductsInCartAction(products))
+    }
+}
 
 // 認証リッスン機能
 export const listenAuthState = () => {

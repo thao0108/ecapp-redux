@@ -25,15 +25,17 @@ const SizeTable = (props) => {
             <Table aria-label="simple table">
                 <TableBody>
                     {props.sizes.length > 0 && (
-                        props.sizes.map((item, index) => (
-                            <TableRow key={item.size}>
-                                <TableCell component="th" scope="row">{item.size}</TableCell>
-                                <TableCell>残り{item.quantity}点</TableCell>
+                        props.sizes.map((size, index) => (
+                            <TableRow key={size.size}>
+                                <TableCell component="th" scope="row">{size.size}</TableCell>
+                                <TableCell>
+                                    残り{size.quantity}点
+                                </TableCell>
                                 <TableCell className={classes.iconCell}>
-                                    {item.quantity > 0 ? (
+                                    {size.quantity > 0 ? (
                                         <IconButton
                                             className={classes.iconCell}
-                                            onClick={() => props.addProduct(item.size)}
+                                            onClick={() => props.addProduct(size.size)} //addProductにクリックされたサイズが渡される
                                         >
                                             <ShoppingCartIcon />
                                         </IconButton>

@@ -43,7 +43,7 @@ const Header = () => {
 
     return(
         <div className={classes.root}>
-            <AppBar position="fiexed" className={classes.menuBar}>
+            <AppBar position="fixed" className={classes.menuBar}>
                 <Toolbar className={classes.toolBar}>
                     <img 
                         src={logo} alt="Torahack logo" width="120px"

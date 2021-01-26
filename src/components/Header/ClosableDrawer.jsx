@@ -17,6 +17,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { TextInput } from '../../components/UIkit'
 import { signOut } from '../../reducks/users/oprations'
 
+
 const useStyles = makeStyles((theme) => ({
  drawer: {
      [theme.breakpoints.up('sm')]:{
@@ -45,7 +46,7 @@ const ClosableDrawer = (props) => {
         setKeyword(event.target.value)
     }, [setKeyword])
 
-    // menuのvalueが渡ってくる
+    // クリックイベントでmenuのvalueが渡ってくる
     const selectMenu = (e, path) => {
         dispatch(push(path))
         // メニュー選択後、閉じる

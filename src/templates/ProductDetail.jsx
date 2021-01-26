@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { db } from '../firebase';
-import { useSelector } from 'react-redux'
+import { db, firebaseTimeStamp } from '../firebase';
+import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import HTMLReactParser　from 'html-react-parser'
 import { ImageSwiper, SizeTable } from '../components/Products'
+import { addProductToCart } from '../reducks/users/oprations'
 
 const useStyles = makeStyles((theme) => ({
     sliderBox: {
@@ -48,6 +49,7 @@ const returnCodeToBr = (text) => {
 const ProductDetail = () => {
     const classes = useStyles()
     const selector = useSelector((state) => state)
+    const dispatch = useDispatch()
     // reduxのstoreの情報ドメイン以降
     const path = selector.router.location.pathname
     const id = path.split('/product/')[1]
@@ -63,6 +65,22 @@ const ProductDetail = () => {
             }) 
     }, [])
 
+    // sizeTableでクリックされたサイズが渡される
+    const addProduct = useCallback((selectedSize) => {
+        const timestamp = firebaseTimeStamp.now()
+         dispatch(addProductToCart({
+             added_at: timestamp,
+             description: product.description,
+             gender: product.gender,
+             images: product.images,
+             name: product.name,
+             price: product.price,
+             productId: product.id,
+             quantity: 1,
+             size: selectedSize   
+         }))
+    }, [product])
+
     return(
         <section className="c-section-wrapin">
             {product && (
@@ -74,7 +92,7 @@ const ProductDetail = () => {
                         <h2 className="u-text__headline">{product.name}</h2>
                         <p className={classes.price}>{product.price.toLocaleString()}</p>
                         <div className="module-spacer--small" />
-                        <SizeTable sizes={product.sizes} />
+                        <SizeTable sizes={product.sizes} addProduct={addProduct}/>
                         <div className="module-spacer--small" />
                         {/* 改行の関数 */}
                         <p>{returnCodeToBr(product.description)}</p>
