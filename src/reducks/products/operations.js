@@ -38,6 +38,108 @@ export const fetchProduct = () => {
     }
 }
 
+export const orderProduct = (productsInCart, amount) => {
+    return async (dispatch, getState) => {
+        const uid = getState().users.uid;
+        const userRef = db.collection('users').doc(uid)
+        const timestamp = firebaseTimeStamp.now()
+
+        let products = [],
+            soldOutProducts = [];
+
+        const batch = db.batch()
+        
+        for(const product of productsInCart) {
+            // カート内の商品情報productIdをdoc()に指定して各商品情報を呼び出す
+            const snapshot = await productsRef.doc(product.productId).get()
+            // productコレクションのサイズ
+            const sizes = snapshot.data().sizes
+
+            // productコレクションのサイズをマップでイテレート
+            const updatedSizes = sizes.map(size => {
+                // productコレクションのサイズとカート内の商品カート
+                if(size.size === product.size) {
+                    // 商品が売り切れだった場合
+                   if (size.quantity ===　0) {
+                    // 下でalert処理   
+                    soldOutProducts.push(product.name)
+                    // そのままサイズオブジェクトを返す
+                    return size
+                   }
+                　　//通常の処理    
+                   return {
+                       size: size.size,
+                       //productコレクションのサイズの数量を−１   
+                       quantity: size.quantity - 1
+                   }
+                // 選んだサイズじゃなければ元のサイズオブジェクトを返す   
+                } else {
+                    return size
+                }
+            })
+            // 注文履歴用 historyオブジェクト
+            products.push({
+                id: product.productId,
+                images: product.images,
+                name: product.name,
+                price: product.price,
+                size: product.size
+            })
+
+            batch.update(
+                productsRef.doc(product.productId),
+                    {sizes: updatedSizes}     //商品を購入し、在庫を減らした後商品を上書き            
+            )
+        　　 // カート内削除
+            batch.delete(
+                userRef.collection('cart').doc(product.cartId)
+            )
+        }
+        // for文ここまで
+
+        // 在庫切れの商品があれば
+        if (soldOutProducts.length > 0) {
+            const errorMessage = (soldOutProducts.length > 1) ? 
+                                  soldOutProducts.join('と') : 
+                                  soldOutProducts[0]
+            alert('大変申し訳ありません' + errorMessage + '在庫切れとなったため、注文処理を中断しました。')   
+            return false
+    　　 // 在庫があれば
+        } else {
+            // batch処理を実行
+            batch.commit()
+                .then(() => {
+                    // orderサブコレクション
+                    const orderRef = userRef.collection('orders').doc()
+                    // 今日の日付
+                    const date = timestamp.toDate()
+                    // 配送日
+                    const shippingDate = firebaseTimeStamp.fromDate(new Date(date.setDate(date.getDate() + 3)))
+
+                    const history = {
+                        amount: amount,
+                        created_at: timestamp,
+                        id: orderRef.id,
+                        products: products,
+                        shipping_date: shippingDate,
+                        updated_at: timestamp
+                    }
+
+                    orderRef.set(history)
+                    dispatch(push('/order/complete'))
+        　　　   //エラーになるとcommitは実行されない 
+                }).catch((err) => {
+                    alert('注文処理に失敗しました。通信環境をご確認の上、もう一度お試しください。')
+                    console.log(err)
+                    return false
+                })
+
+            
+
+        }
+    }
+}
+
 
 
 
