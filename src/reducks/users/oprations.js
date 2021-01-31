@@ -15,6 +15,26 @@ export const addProductToCart = (addedProduct) => {
         dispatch(push('/'))
     }
 }
+
+
+export const fetchOrderHistory = () => {
+    return async(dispatch, getState) => {
+        const uid = getState().users.uid;
+        const list = []
+        db.collection('users').dov(uid)
+        .collection('orders')
+        .orderBy('update_at','desc')
+        .get()
+        .then((snapshots) => {
+            snapshots.forEach(snapshot => {
+                const data = snapshot.data()
+                list.push(data)
+            })
+            dispatch(fetchOrderHistoryAction)
+        })
+    }
+}
+
 // アクションにHeaderMenuからのカートの情報を渡す
 export const fetchProductsInCart = (products) => {
     return async(dispatch) => {
