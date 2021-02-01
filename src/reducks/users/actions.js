@@ -34,10 +34,10 @@ export const fetchProductsInCartAction = (products) => {
     }
 };
 
-export const FETCH_ORDERS_HISTORY = "FETCH_ORDERS_HISTORY"
-export const fetchProductsInCartAction = (history) => {
+export const FETCH_ORDER_HISTORY = "FETCH_ORDER_HISTORY"
+export const fetchOrderHistoryAction = (history) => {
     return {
-        type: "FETCH_ORDERS_HISTORY",
+        type: "FETCH_ORDER_HISTORY",
         payload: history
     }
 };

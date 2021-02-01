@@ -13,7 +13,7 @@ export const getProductsInCart = createSelector(
 )
 export const getOrdersHistory = createSelector(
     [usersSelector],
-    state => state.cart
+    state => state.orders
 )
 
 // 現在のstateのuidを返す　stateが変更された時実行される
