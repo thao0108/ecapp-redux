@@ -11,6 +11,10 @@ export const getProductsInCart = createSelector(
     [usersSelector],
     state => state.cart
 )
+export const getOrdersHistory = createSelector(
+    [usersSelector],
+    state => state.orders
+)
 
 // 現在のstateのuidを返す　stateが変更された時実行される
 export const getUserId = createSelector(

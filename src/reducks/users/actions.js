@@ -33,3 +33,13 @@ export const fetchProductsInCartAction = (products) => {
         payload: products
     }
 };
+
+export const FETCH_ORDER_HISTORY = "FETCH_ORDER_HISTORY"
+export const fetchOrderHistoryAction = (history) => {
+    return {
+        type: "FETCH_ORDER_HISTORY",
+        payload: history
+    }
+};
+
+
