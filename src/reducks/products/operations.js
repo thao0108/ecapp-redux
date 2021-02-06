@@ -19,10 +19,15 @@ export const deleteProduct = id => {
 }
 
 // 各商品を取り出す
-export const fetchProduct = () => {
+export const fetchProduct = (gender, category) => {
     return async(dispatch) => {
         // orderBy(更新日付, 昇順)　各ドキュメントをを取り出す
-        productsRef.orderBy('updated_at', 'desc').get()
+        let query = productsRef.orderBy('updated_at', 'desc')
+        // where条件文　queryが空じゃなければ　引数と一致するものをqueryに代入(ドキュメントを絞る)
+        query = (gender !== "" ) ? query.where('gender', '==', gender) : query;
+        query = (category !== "" ) ? query.where('category', '==', category) : query;
+
+        query.get()
             .then(snapshots => {
                 const productList = []
                 // ドキュメントオブジェクトを取り出して配列に格納
