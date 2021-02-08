@@ -44,7 +44,10 @@ const SizeTable = (props) => {
                                     )}
                                 </TableCell>
                                 <TableCell className={classes.iconCell}>
-                                    <IconButton className={classes.iconCell}>
+                                    <IconButton 
+                                        className={classes.iconCell}
+                                        onClick={() => props.favoriteProduct(size.size)} //favoriteProductにクリックされたサイズが渡される
+                                    >
                                         <FavoriteBorderIcon />
                                     </IconButton>
                                 </TableCell>
