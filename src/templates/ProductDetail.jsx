@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import HTMLReactParser　from 'html-react-parser'
 import { ImageSwiper, SizeTable } from '../components/Products'
-import { addProductToCart } from '../reducks/users/oprations'
+import { addProductToCart, addProductToFavorite } from '../reducks/users/oprations'
 
 const useStyles = makeStyles((theme) => ({
     sliderBox: {
@@ -65,10 +65,26 @@ const ProductDetail = () => {
             }) 
     }, [])
 
-    // sizeTableでクリックされたサイズが渡される
+    // sizeTableでクリックされたサイズが渡される,カートに商品追加
     const addProduct = useCallback((selectedSize) => {
         const timestamp = firebaseTimeStamp.now()
          dispatch(addProductToCart({
+             added_at: timestamp,
+             description: product.description,
+             gender: product.gender,
+             images: product.images,
+             name: product.name,
+             price: product.price,
+             productId: product.id,
+             quantity: 1,
+             size: selectedSize   
+         }))
+    }, [product])
+
+    // お気に入り追加
+    const favoriteProduct = useCallback((selectedSize) => {
+        const timestamp = firebaseTimeStamp.now()
+         dispatch(addProductToFavorite({
              added_at: timestamp,
              description: product.description,
              gender: product.gender,
@@ -92,7 +108,7 @@ const ProductDetail = () => {
                         <h2 className="u-text__headline">{product.name}</h2>
                         <p className={classes.price}>{product.price.toLocaleString()}</p>
                         <div className="module-spacer--small" />
-                        <SizeTable sizes={product.sizes} addProduct={addProduct}/>
+                        <SizeTable sizes={product.sizes} addProduct={addProduct} favoriteProduct={favoriteProduct}/>
                         <div className="module-spacer--small" />
                         {/* 改行の関数 */}
                         <p>{returnCodeToBr(product.description)}</p>

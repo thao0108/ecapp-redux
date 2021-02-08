@@ -4,6 +4,7 @@ const initialState = {
         list: []
     },
     users: {
+        favorite: [],
         cart: [],
         orders: [],
         isSignedIn: false,

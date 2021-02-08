@@ -15,6 +15,18 @@ export const addProductToCart = (addedProduct) => {
         dispatch(push('/'))
     }
 }
+// お気に入り商品情報を登録
+export const addProductToFavorite = (favoriteProduct) => {
+    return async (dispatch, getState) => {
+        const uid = getState().users.uid
+        // 現在のユーザーの中にサブコレクショfavoriteのドキュメントIDを作成
+        const favoriteRef = db.collection('users').doc(uid).collection('favorite').doc()
+        favoriteProduct['favoriteId'] = favoriteRef.id
+        // favoriteサブコレクションデータ追加
+        await favoriteRef.set(favoriteProduct)
+        // dispatch(push('/'))
+    }
+}
 
 // orderコレクションを取得
 export const fetchOrderHistory = () => {
