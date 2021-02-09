@@ -60,6 +60,7 @@ const HeaderMenu = (props) => {
                 // 複数ドキュメントの変更タイプ取得　favoriteの中が削除、追加、変更によって処理を変更 
                 snapshots.docChanges().forEach(change => {
                     //フィールド情報取得
+                    // changeは変更が加わったドキュメント情報
                     const product = change.doc.data();
                     const changeType = change.type
 
@@ -69,13 +70,13 @@ const HeaderMenu = (props) => {
                             break;
                         case 'modified':
                             // 変更が加わった要素を特定 条件満たす値を返す
-                            const index = favoriteProducts.findIndex(product => product.cartId === change.doc.id) 
+                            const index = favoriteProducts.findIndex(product => product.favoriteId === change.doc.id) 
                             // 変更が加わった要素をproductで上書き 
                             favoriteProducts[index] = product
                             break;
                         case 'removed': 
                             // 削除されたものを取り除いて新しい配列を作る
-                            favoriteProducts = favoriteProducts.filter(product => product.cartId !== change.doc.id)  
+                            favoriteProducts = favoriteProducts.filter(product => product.favoriteId !== change.doc.id)  
                         default:
                             break;        
                     }

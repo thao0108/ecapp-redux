@@ -15,11 +15,11 @@ const datetimeToString = (date) => {
 }
 
 
-// 結果　2021-28-31
+// 結果　2021-01-31
 // date = Sun Jan 31 2021 16:28:41 GMT+0900 (日本標準時)
 const dateToString = (date) => {
     return date.getFullYear() + '-'
-    + ('00' + date.getMinutes()).slice(-2) + '-'
+    + ('00' + (date.getMonth()+1)).slice(-2) + '-'
     + ('00' + date.getDate()).slice(-2)
         
 }
