@@ -34,6 +34,15 @@ export const fetchProductsInCartAction = (products) => {
     }
 };
 
+export const FETCH_PRODUCT_IN_FAVORITE = "FETCH_PRODUCT_IN_FAVORITE"
+export const fetchProductsInFavoriteAction = (products) => {
+    return {
+        type: "FETCH_PRODUCT_IN_FAVORITE",
+        payload: products
+    }
+};
+
+
 export const FETCH_ORDER_HISTORY = "FETCH_ORDER_HISTORY"
 export const fetchOrderHistoryAction = (history) => {
     return {
