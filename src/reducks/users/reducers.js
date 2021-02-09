@@ -22,7 +22,7 @@ export const UsersReducer = (state = initialState.users, action) => {
             case Action.FETCH_PRODUCT_IN_FAVORITE: 
             return {
             ...state,
-            Favorite: [...action.payload]    
+            favorite: [...action.payload]    
         }
             case Action.FETCH_ORDER_HISTORY: 
             return {
