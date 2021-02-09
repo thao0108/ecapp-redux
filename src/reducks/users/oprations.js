@@ -1,4 +1,4 @@
-import { signInAction , signOutAction, fetchProductsInCartAction, fetchOrderHistoryAction } from './actions'
+import { signInAction , signOutAction, fetchProductsInCartAction, fetchOrderHistoryAction, fetchProductsInFavoriteAction } from './actions'
 import {push} from 'connected-react-router';
 import { auth, db, firebaseTimeStamp } from '../../firebase/index'
 
@@ -53,6 +53,13 @@ export const fetchOrderHistory = () => {
 export const fetchProductsInCart = (products) => {
     return async(dispatch) => {
         dispatch(fetchProductsInCartAction(products))
+    }
+}
+
+// アクションにHeaderMenuからのカートの情報を渡す
+export const fetchProductsInFavorite = (products) => {
+    return async(dispatch) => {
+        dispatch(fetchProductsInFavoriteAction(products))
     }
 }
 
