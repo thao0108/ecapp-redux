@@ -7,4 +7,6 @@ export {default as SizeTable} from './SizeTable'
 export {default as CartListItem } from './CartListItem'
 export {default as OrderHistoryItem } from './OrderHistoryItem'
 export {default as OrderedProducts } from './OrderedProducts'
+export {default as FavoriteListItem } from './FavoriteListItem'
+
 
