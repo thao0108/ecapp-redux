@@ -9,8 +9,16 @@ import { getProductsInCart, getUserId, getProductsInFavorite } from '../../reduc
 import { fetchProductsInCart, fetchProductsInFavorite } from '../../reducks/users/oprations'
 import { db } from '../../firebase'
 import { push } from 'connected-react-router'
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles({
+    icon: {
+        color: '#fff'
+    }
+})
 
 const HeaderMenu = (props) => {
+    const classes = useStyles()
     const selector = useSelector(state => state)
     const dispatch = useDispatch()
     const uid = getUserId(selector)
@@ -90,17 +98,17 @@ const HeaderMenu = (props) => {
     
     return (
         <>
-            <IconButton onClick={() => dispatch(push('/cart'))}>
+            <IconButton onClick={() => dispatch(push('/cart'))} className={classes.icon}>
             {/* cartの配列の要素の数 */}
                 <Badge badgeContent={productsInCart.length} color="secondary">
                     <ShoppingCartIcon/>
                 </Badge>
             </IconButton>
-            <IconButton onClick={() => dispatch(push('/favorite'))}>
+            <IconButton onClick={() => dispatch(push('/favorite'))} className={classes.icon}>
                 <FavoriteBorderIcon/>
             </IconButton>
             {/* サインインしてMenuIconが押された時にdrawerが開く */}
-            <IconButton onClick={(e) => props.handleDrawerToggle(e)}>
+            <IconButton onClick={(e) => props.handleDrawerToggle(e)} className={classes.icon}>
                 <MenuIcon/>
             </IconButton>
         </>

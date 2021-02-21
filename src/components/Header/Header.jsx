@@ -12,7 +12,7 @@ import { HeaderMenu, ClosableDrawer } from './index'
             flexGrow: 1,
         },
         menuBar: {
-            backgroundColor: "#fff",
+            backgroundColor: "#303030",
             color: "#444"
         },
         toolBar: {
@@ -21,7 +21,8 @@ import { HeaderMenu, ClosableDrawer } from './index'
             width: '100%'
         },
         iconButtons: {
-            margin: '0 0 0 auto'
+            margin: '0 0 0 auto',
+
         }
 })
 
@@ -45,10 +46,10 @@ const Header = () => {
         <div className={classes.root}>
             <AppBar position="fixed" className={classes.menuBar}>
                 <Toolbar className={classes.toolBar}>
-                    <img 
+                    {/* <img 
                         src={logo} alt="Torahack logo" width="120px"
                         onClick={() => dispatch(push('/'))}
-                    />
+                    /> */}
                     {isSignedIn && (
                         <div className={classes.iconButtons}>
                             <HeaderMenu handleDrawerToggle={handleDrawerToggle}/>
