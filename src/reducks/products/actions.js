@@ -14,4 +14,11 @@ export const fetchProductsAction = (products) => {
     }
 };
 
+export const SEARCH_KEYWORD = "SEARCH_KEYWORD"
+export const searchKeywordAction = (products) => {
+    return {
+        type: "SEARCH_KEYWORD",
+        payload: products
+    }
+};
 

@@ -13,6 +13,11 @@ export const ProductsReducer = (state = initialState.products, action) => {
             ...state,
             list: [...action.payload] //reduxのstoreの中のメモリ情報が書き換わる　コンポーネント側で変更が検知される
         }
+        case Actions.SEARCH_KEYWORD: 
+        return {
+            ...state,
+            list: [...action.payload] //reduxのstoreの中のメモリ情報が書き換わる　コンポーネント側で変更が検知される
+        }
         default: 
             return state    
     }
