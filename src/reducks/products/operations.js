@@ -1,6 +1,6 @@
 import { firebaseTimeStamp, db } from "../../firebase/index"
 import { push } from 'connected-react-router'
-import { fetchProductsAction, deleteProductAction } from './actions'
+import { fetchProductsAction, deleteProductAction, searchKeywordAction } from './actions'
 
 const productsRef = db.collection('products')
 
@@ -39,6 +39,30 @@ export const fetchProduct = (gender, category) => {
 
                 // アクションを呼び出す
                 dispatch(fetchProductsAction(productList))
+            })
+    }
+}
+// キーワード検索
+export const searchKeyword = (keyword) => {
+    return async(dispatch) => {
+            console.log(keyword)
+            // orderBy(更新日付, 昇順)　各ドキュメントをを取り出す
+            let query = productsRef.orderBy('updated_at', 'desc')
+             // where条件文　queryが空じゃなければ　引数と一致するものをqueryに代入(ドキュメントを絞る)
+            query = (keyword !== "" ) ? query.where('name', '==', keyword) : query;
+
+            query.get()
+            .then(snapshots => {
+                const productList = []
+                // ドキュメントオブジェクトを取り出して配列に格納
+                snapshots.forEach(snapshot => {
+                    // ドキュメントを一つずつ呼び出し、ドキュメントの中のデータを取得
+                    const product = snapshot.data()
+                    productList.push(product)
+                })
+
+                // アクションを呼び出す
+                dispatch(searchKeywordAction(productList))
             })
     }
 }

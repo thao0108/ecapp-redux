@@ -17,6 +17,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { TextInput } from '../../components/UIkit'
 import { signOut } from '../../reducks/users/oprations'
 import {db} from '../../firebase'
+import { searchKeyword } from '../../reducks/products/operations';
 
 const useStyles = makeStyles((theme) => ({
     drawer: {
@@ -42,9 +43,16 @@ const ClosableDrawer = (props) => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const [keyword, setKeyword] = useState("")
+
     const inputKeyword = useCallback((event) => {
         setKeyword(event.target.value)
     }, [setKeyword])
+    console.log(keyword)
+
+    const sendKeyword = () => {
+        dispatch(searchKeyword(keyword))
+        dispatch(push("/"))
+    }
 
     // クリックイベントでmenuのvalueが渡ってくる
     const selectMenu = (e, path) => {
@@ -100,7 +108,7 @@ const ClosableDrawer = (props) => {
                         fullWidth={false} label={"キーワードを入力"} multiline={false}
                         onChange={inputKeyword} required={false} rows={1} value={keyword} type={"text"}
                     />
-                    <IconButton>
+                    <IconButton　onClick={sendKeyword}>
                         <SearchIcon />
                     </IconButton>
                 </div>
